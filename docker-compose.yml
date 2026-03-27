@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: exampledb
+    ports:
+      - '3306:3306'
+
+  redis:
+    image: redis:latest
+    ports:
+      - '6379:6379'
+
+  next:
+    image: nextjs-app:latest
+    ports:
+      - '3000:3000'
+    depends_on:
+      - mysql
+      - redis
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_DATABASE: exampledb
+      REDIS_HOST: redis
